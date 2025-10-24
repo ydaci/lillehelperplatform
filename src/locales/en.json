@@ -1,0 +1,19 @@
+{
+  "home_title": "Connect, Learn, Grow in Lille",
+  "home_description": "Your platform for language exchange, cultural events, and building connections as an international in Lille.",
+  "discover_events": "Discover Events",
+  "find_teachers": "Find Teachers",
+  "get_started": "Get Started",
+  "events": "Events",
+  "teachers": "Teachers",
+  "register": "Register",
+  "login": "Login",
+  "offer": "What We Offer",
+  "buttons": {
+    "login": "Login",
+    "register": "Register",
+    "events": "Events",
+    "teachers": "Teachers",
+    "home": "Home"
+  }
+}

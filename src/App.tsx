@@ -9,11 +9,15 @@ import { Separator } from './components/ui/separator';
 import { Calendar, Users, BookOpen, MessageSquare, Settings, Plus, Filter, Search, Globe, LogIn, UserPlus } from 'lucide-react';
 import LingoLilleLogo from './img/LingoLille.jpg';
 import qrcode from './img/qrcode.png';
+import "./i18n";
+import { useTranslation } from "react-i18next";
+
 
 // Types
 type UserRole = 'Admin' | 'Teacher' | 'Learner' | null;
-type Language = 'EN' | 'FR' | 'ES' | 'ZH';
+type Language = 'EN' | 'FR' | 'ES' | 'ZH' | 'IT';
 type Page = 'Home' | 'Events' | 'Teachers' | 'Registration' | 'Login' | 'Dashboard';
+
 
 // Mock data
 const mockEvents = [
@@ -29,11 +33,19 @@ const mockTeachers = [
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('Home');
-  const [currentLanguage, setCurrentLanguage] = useState<Language>('EN');
+
   const [userRole, setUserRole] = useState<UserRole>(null);
   const [selectedRegType, setSelectedRegType] = useState<'Teach' | 'Learn' | null>(null);
   const [showContactForm, setShowContactForm] = useState(false);
   const [selectedTeacher, setSelectedTeacher] = useState<typeof mockTeachers[0] | null>(null);
+  //Translations
+const { t, i18n } = useTranslation();
+const [currentLanguage, setCurrentLanguage] = useState<Language>('EN');
+const handleLanguageChange = (lang: Language) => {
+  setCurrentLanguage(lang);
+  i18n.changeLanguage(lang.toLowerCase()); // i18next attend des codes comme "en", "fr", "es", "zh"
+};
+
 
   // Header Component
   const Header = () => (
@@ -50,21 +62,20 @@ export default function App() {
         
         
         <nav className="hidden md:flex items-center space-x-6">
-          <Button variant="ghost" onClick={() => setCurrentPage('Home')}>Home</Button>
-          <Button variant="ghost" onClick={() => setCurrentPage('Events')}>Events</Button>
-          <Button variant="ghost" onClick={() => setCurrentPage('Teachers')}>Teachers</Button>
-          <Button variant="ghost" disabled onClick={() => setCurrentPage('Registration')}>Register</Button>
+          <Button variant="ghost" onClick={() => setCurrentPage('Home')}>{t('buttons.home')}</Button>
+          <Button variant="ghost" onClick={() => setCurrentPage('Events')}>{t('buttons.events')}</Button>
+          <Button variant="ghost" onClick={() => setCurrentPage('Teachers')}>{t('buttons.teachers')}</Button>
+          <Button variant="ghost" disabled onClick={() => setCurrentPage('Registration')}>{t('buttons.register')}</Button>
         </nav>
         
         <div className="flex items-center space-x-4">
           <div className="flex space-x-1">
-            {(['EN', 'FR', 'ES', 'ZH'] as Language[]).map((lang) => (
+            {(['EN', 'FR', 'ES', 'ZH', 'IT'] as Language[]).map((lang) => (
               <Button
                 key={lang}
                 variant={currentLanguage === lang ? "default" : "outline"}
-                disabled
                 size="sm"
-                onClick={() => setCurrentLanguage(lang)}
+                onClick={() => handleLanguageChange(lang)}
                 className="px-2 py-1 text-sm"
               >
                 {lang}
@@ -73,7 +84,7 @@ export default function App() {
           </div>
           <Button disabled variant="outline" onClick={() => setCurrentPage('Login')}>
             <LogIn className="h-4 w-4 mr-2" />
-            Login
+            {t('buttons.login')}
           </Button>
         </div>
       </div>
@@ -87,23 +98,23 @@ export default function App() {
       <section className="bg-secondary/20 py-16 px-6">
         <div className="max-w-4xl mx-auto text-center space-y-6">
           <h1 className="text-4xl font-medium text-foreground">
-            Connect, Learn, Grow in Lille
+            {t('home_title')}
           </h1>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Your platform for language exchange, cultural events, and building connections as an international in Lille.
+            {t('home_description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
             <Button size="lg" onClick={() => setCurrentPage('Events')}>
               <Calendar className="h-5 w-5 mr-2" />
-              Discover Events
+              {t('discover_events')}
             </Button>
             <Button size="lg" variant="outline" onClick={() => setCurrentPage('Teachers')}>
               <Users className="h-5 w-5 mr-2" />
-              Find Teachers
+              {t('find_teachers')}
             </Button>
             <Button size="lg" variant="outline" disabled onClick={() => setCurrentPage('Registration')}>
               <UserPlus className="h-5 w-5 mr-2" />
-              Get Started
+              {t('get_started')}
             </Button>
           </div>
         </div>
@@ -112,7 +123,7 @@ export default function App() {
       {/* Preview Cards */}
       <section className="px-6">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl font-medium text-center mb-8">What We Offer</h2>
+          <h2 className="text-2xl font-medium text-center mb-8">{t('offer')}</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <Card>
               <CardHeader>

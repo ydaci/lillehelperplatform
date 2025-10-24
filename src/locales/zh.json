@@ -1,0 +1,19 @@
+{
+  "home_title": "在里尔连接、学习和成长",
+  "home_description": "为语言交流、文化活动和国际联系而设计的平台。",
+  "discover_events": "发现活动",
+  "find_teachers": "寻找教师",
+  "get_started": "开始",
+  "events": "活动",
+  "teachers": "教师",
+  "register": "注册",
+  "login": "登录",
+  "offer": "我们的服务",
+  "buttons": {
+    "login": "登录",
+    "register": "注册",
+    "events": "活动",
+    "teachers": "老师",
+    "home": "首页"
+  }
+}

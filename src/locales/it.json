@@ -1,0 +1,19 @@
+{
+    "home_title": "Connettiti, impara e cresci a Lille",
+    "home_description": "La tua piattaforma per scambi linguistici, eventi culturali e connessioni internazionali a Lille.",
+    "discover_events": "Scopri eventi",
+    "find_teachers": "Trova insegnanti",
+    "get_started": "Inizia",
+    "events": "Eventi",
+    "teachers": "Insegnanti",
+    "register": "Registrati",
+    "login": "Accedi",
+    "offer": "Cosa offriamo",
+    "buttons": {
+    "login": "Accedi",
+    "register": "Registrati",
+    "events": "Eventi",
+    "teachers": "Insegnanti",
+    "home": "Home"
+  }
+}
