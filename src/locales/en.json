@@ -15,5 +15,60 @@
     "events": "Events",
     "teachers": "Teachers",
     "home": "Home"
+  },
+  "events_section_title": "Events & Meetups",
+  "events_section_subtitle": "Join cultural events, language exchanges, and networking opportunities.",
+  "learning_section_title": "Language Learning",
+  "learning_section_subtitle": "Connect with qualified teachers for personalized language lessons.",
+  "community_section_title": "Community",
+  "community_section_subtitle": "Build lasting connections with fellow internationals and locals.",
+  "events_page_title": "Upcoming Events",
+  "events_page_propose": "Propose Event",
+  "placeholder_date": "Filter by date",
+  "placeholder_type": "Filter by type",
+  "placeholder_subject": "Filter by subject",
+  "filter_today": "Today",
+  "filter_week": "This Week",
+  "filter_month": "This Month",
+  "filter_language": "Language",
+  "filter_cultural": "Cultural",
+  "filter_professional": "Professional",
+  "join_event": "Join Event",
+  "events": {
+    "1": {
+      "title": "Language Exchange meeting #1",
+      "date": "Every Wednesday",
+      "location": "Tir Na Nog",
+      "description": "Practice French and foreign languages in a relaxed environment"
+    },
+    "2": {
+      "title": "Language Exchange meeting #2",
+      "date": "Every Thursday",
+      "location": "Ya’s Bar",
+      "description": "Practice French and foreign languages in a relaxed environment"
+    }
+  },
+  "teachers": {
+    "1": {
+      "name": "Axel Bruni",
+      "subject": "French As A Foreign Language",
+      "bio": "Native French speaker with 5 years teaching experience"
+    },
+    "2": {
+      "name": "Luca Pecoriello",
+      "subject": "Italian Language",
+      "bio": "Italian native teacher from Torino"
+    },
+    "3": {
+      "name": "Shang Wenting",
+      "subject": "Mandarin Chinese",
+      "bio": "Chinese native teacher with business background"
+    }
+  },
+  "languages": {
+    "french": "French Language",
+    "spanish": "Spanish Language",
+    "chinese": "Mandarin Chinese",
+    "english": "English Language"
   }
 }

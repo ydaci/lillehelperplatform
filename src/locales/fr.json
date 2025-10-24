@@ -14,5 +14,60 @@
     "events": "Événements",
     "teachers": "Enseignants",
     "home": "Accueil"
+  },
+  "events_section_title": "Événements et Rencontres",
+  "events_section_subtitle": "Participez à des événements culturels, des échanges linguistiques et des opportunités de réseautage.",
+  "learning_section_title": "Apprentissage des langues",
+  "learning_section_subtitle": "Connectez-vous avec des professeurs qualifiés pour des cours de langue personnalisés.",
+  "community_section_title": "Communauté",
+  "community_section_subtitle": "Créez des liens durables avec d'autres internationaux et habitants locaux.",
+  "events_page_title": "Événements à venir",
+  "events_page_propose": "Proposer un événement",
+  "placeholder_date": "Filtrer par date",
+  "placeholder_type": "Filtrer par type",
+  "placeholder_subject": "Filtrer par matière",
+  "filter_today": "Aujourd'hui",
+  "filter_week": "Cette semaine",
+  "filter_month": "Ce mois-ci",
+  "filter_language": "Linguistique",
+  "filter_cultural": "Culturel",
+  "filter_professional": "Professionnel",
+  "join_event": "Rejoindre l'événement",
+  "events": {
+    "1": {
+      "title": "Échange linguistique #1",
+      "date": "Chaque mercredi",
+      "location": "Tir Na Nog",
+      "description": "Pratiquez le français et d'autres langues dans une ambiance détendue"
+    },
+    "2": {
+      "title": "Échange linguistique #2",
+      "date": "Chaque jeudi",
+      "location": "Ya’s Bar",
+      "description": "Pratiquez le français et d'autres langues dans une ambiance détendue"
+    }
+  },
+  "teachers": {
+    "1": {
+      "name": "Axel Bruni",
+      "subject": "Français langue étrangère",
+      "bio": "Locuteur natif avec 5 ans d’expérience dans l’enseignement"
+    },
+    "2": {
+      "name": "Luca Pecoriello",
+      "subject": "Langue italienne",
+      "bio": "Professeur italien originaire de Turin"
+    },
+    "3": {
+      "name": "Shang Wenting",
+      "subject": "Chinois mandarin",
+      "bio": "Enseignante chinoise native avec une expérience en affaires"
+    }
+  },
+  "languages": {
+    "french": "Français",
+    "spanish": "Espagnol",
+    "chinese": "Mandarin",
+    "english": "Anglais"
   }
 }

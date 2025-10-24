@@ -15,5 +15,69 @@
     "events": "Eventi",
     "teachers": "Insegnanti",
     "home": "Home"
+  },
+  "events_section_title": "Eventi e Incontri",
+  "events_section_subtitle": "Partecipa a eventi culturali, scambi linguistici e opportunità di networking.",
+  "learning_section_title": "Apprendimento delle lingue",
+  "learning_section_subtitle": "Connettiti con insegnanti qualificati per lezioni di lingua personalizzate.",
+  "community_section_title": "Comunità",
+  "community_section_subtitle": "Crea connessioni durature con altri internazionali e residenti locali.",
+  "events_page_title": "Prossimi eventi",
+  "events_page_propose": "Proponi evento",
+  "filter_today": "Oggi",
+  "filter_week": "Questa settimana",
+  "filter_month": "Questo mese",
+  "filter_language": "Linguistico",
+  "filter_cultural": "Culturale",
+  "filter_professional": "Professionale",
+  "join_event": "Partecipa all'evento",
+  "events_page_title": "Prossimi eventi",
+  "events_page_propose": "Proponi evento",
+  "placeholder_date": "Filtra per data",
+  "placeholder_type": "Filtra per tipo",
+  "placeholder_subject": "Filtra per materia",
+  "filter_today": "Oggi",
+  "filter_week": "Questa settimana",
+  "filter_month": "Questo mese",
+  "filter_language": "Linguistico",
+  "filter_cultural": "Culturale",
+  "filter_professional": "Professionale",
+  "join_event": "Partecipa all'evento",
+  "events": {
+    "1": {
+      "title": "Incontro di scambio linguistico #1",
+      "date": "Ogni mercoledì",
+      "location": "Tir Na Nog",
+      "description": "Pratica il francese e altre lingue in un ambiente rilassato"
+    },
+    "2": {
+      "title": "Incontro di scambio linguistico #2",
+      "date": "Ogni giovedì",
+      "location": "Ya’s Bar",
+      "description": "Pratica il francese e altre lingue in un ambiente rilassato"
+    }
+  },
+  "teachers": {
+    "1": {
+      "name": "Axel Bruni",
+      "subject": "Francese come lingua straniera",
+      "bio": "Madrelingua francese con 5 anni di esperienza nell'insegnamento"
+    },
+    "2": {
+      "name": "Luca Pecoriello",
+      "subject": "Lingua italiana",
+      "bio": "Insegnante madrelingua italiano di Torino"
+    },
+    "3": {
+      "name": "Shang Wenting",
+      "subject": "Cinese mandarino",
+      "bio": "Insegnante madrelingua cinese con esperienza nel business"
+    }
+  },
+  "languages": {
+    "french": "Francese",
+    "spanish": "Spagnolo",
+    "chinese": "Cinese mandarino",
+    "english": "Inglese"
   }
 }

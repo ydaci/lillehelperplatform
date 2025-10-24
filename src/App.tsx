@@ -19,18 +19,6 @@ type Language = 'EN' | 'FR' | 'ES' | 'ZH' | 'IT';
 type Page = 'Home' | 'Events' | 'Teachers' | 'Registration' | 'Login' | 'Dashboard';
 
 
-// Mock data
-const mockEvents = [
-  { id: 1, title: 'Language Exchange meeting #1', date: 'Every Wednesday', location: 'Tir Na Nog', description: 'Practice French and foreign languages in a relaxed environment', type: 'Language' },
-  { id: 2, title: 'Language Exchange meeting #2', date: 'Every Thursday', location: 'Ya s Bar', description: 'Practice French and foreign languages in a relaxed environment', type: 'Language' },
-];
-
-const mockTeachers = [
-  { id: 1, name: 'Axel Bruni', subject: 'French As A Foreign Language', bio: 'Native French speaker with 5 years teaching experience', photo: '' },
-  { id: 2, name: 'Luca Pecoriello', subject: 'Italian Language', bio: 'Italian native teacher from Torino', photo: '' },
-  { id: 3, name: 'Shang Wenting', subject: 'Mandarin Chinese', bio: 'Chinese Native teacher with business background', photo: '' },
-];
-
 export default function App() {
   const [currentPage, setCurrentPage] = useState<Page>('Home');
 
@@ -45,6 +33,49 @@ const handleLanguageChange = (lang: Language) => {
   setCurrentLanguage(lang);
   i18n.changeLanguage(lang.toLowerCase()); // i18next attend des codes comme "en", "fr", "es", "zh"
 };
+
+const mockEvents = [
+  { 
+    id: 1, 
+    title: t('events.1.title'), 
+    date: t('events.1.date'), 
+    location: t('events.1.location'), 
+    description: t('events.1.description'), 
+    type: t('events.1.type') 
+  },
+  { 
+    id: 2, 
+    title: t('events.2.title'), 
+    date: t('events.2.date'), 
+    location: t('events.2.location'), 
+    description: t('events.2.description'), 
+    type: t('events.2.type') 
+  },
+];
+
+ const mockTeachers = [
+    { 
+      id: 1, 
+      name: t('teachers.1.name'), 
+      subject: t('teachers.1.subject'), 
+      bio: t('teachers.1.bio'), 
+      photo: '' 
+    },
+    { 
+      id: 2, 
+      name: t('teachers.2.name'), 
+      subject: t('teachers.2.subject'), 
+      bio: t('teachers.2.bio'), 
+      photo: '' 
+    },
+    { 
+      id: 3, 
+      name: t('teachers.3.name'), 
+      subject: t('teachers.3.subject'), 
+      bio: t('teachers.3.bio'), 
+      photo: '' 
+    },
+  ];
 
 
   // Header Component
@@ -128,10 +159,10 @@ const handleLanguageChange = (lang: Language) => {
             <Card>
               <CardHeader>
                 <Calendar className="h-8 w-8 text-primary mb-2" />
-                <CardTitle>Events & Meetups</CardTitle>
+                <CardTitle>{t('events_section_title')}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Join cultural events, language exchanges, and networking opportunities.</p>
+                <p className="text-muted-foreground">{t('events_section_subtitle')}</p>
               </CardContent>
                 <img
     src={qrcode}
@@ -142,19 +173,19 @@ const handleLanguageChange = (lang: Language) => {
             <Card>
               <CardHeader>
                 <BookOpen className="h-8 w-8 text-primary mb-2" />
-                <CardTitle>Language Learning</CardTitle>
+                <CardTitle>{t('learning_section_title')}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Connect with qualified teachers for personalized language lessons.</p>
+                <p className="text-muted-foreground">{t('learning_section_subtitle')}/</p>
               </CardContent>
             </Card>
             <Card>
               <CardHeader>
                 <Users className="h-8 w-8 text-primary mb-2" />
-                <CardTitle>Community</CardTitle>
+                <CardTitle>{t('community_section_title')}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">Build lasting connections with fellow internationals and locals.</p>
+                <p className="text-muted-foreground">{t('community_section_subtitle')}</p>
               </CardContent>
             </Card>
           </div>
@@ -169,10 +200,10 @@ const handleLanguageChange = (lang: Language) => {
       <div className="px-6 py-8">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-            <h1 className="text-3xl font-medium">Upcoming Events</h1>
+            <h1 className="text-3xl font-medium">{t('events_page_title')}</h1>
             <Button>
               <Plus className="h-4 w-4 mr-2" />
-              Propose Event
+              {t('events_page_propose')}
             </Button>
           </div>
           
@@ -182,23 +213,23 @@ const handleLanguageChange = (lang: Language) => {
               <Filter className="h-4 w-4" />
               <Select>
                 <SelectTrigger className="w-48">
-                  <SelectValue placeholder="Filter by date" />
+                  <SelectValue placeholder={t('placeholder_date')}/>
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="today">Today</SelectItem>
-                  <SelectItem value="week">This Week</SelectItem>
-                  <SelectItem value="month">This Month</SelectItem>
+                  <SelectItem value="today">{t('filter_today')}</SelectItem>
+                  <SelectItem value="week">{t('filter_week')}</SelectItem>
+                  <SelectItem value="month">{t('filter_month')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <Select>
               <SelectTrigger className="w-48">
-                <SelectValue placeholder="Filter by type" />
+                <SelectValue placeholder={t('placeholder_type')} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="language">Language</SelectItem>
-                <SelectItem value="cultural">Cultural</SelectItem>
-                <SelectItem value="professional">Professional</SelectItem>
+                <SelectItem value="language">{t('filter_language')}</SelectItem>
+                <SelectItem value="cultural">{t('filter_cultural')}</SelectItem>
+                <SelectItem value="professional">{t('filter_professional')}</SelectItem>
               </SelectContent>
             </Select>
           </div>
@@ -225,7 +256,7 @@ const handleLanguageChange = (lang: Language) => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">{event.description}</p>
-                  <Button className="w-full mt-4">Join Event</Button>
+                  <Button className="w-full mt-4">{t('join_event')}</Button>
                 </CardContent>
               </Card>
             ))}
@@ -247,13 +278,13 @@ const handleLanguageChange = (lang: Language) => {
             <Filter className="h-4 w-4" />
             <Select>
               <SelectTrigger className="w-64">
-                <SelectValue placeholder="Filter by subject" />
+                <SelectValue placeholder={t('placeholder_subject')}  />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="french" >French Language</SelectItem>
-                <SelectItem value="spanish">Spanish Language</SelectItem>
-                <SelectItem value="chinese">Mandarin Chinese</SelectItem>
-                <SelectItem value="english">English Language</SelectItem>
+                <SelectItem value="french" >{t('languages.french')}</SelectItem>
+                <SelectItem value="spanish">{t('languages.spanish')}</SelectItem>
+                <SelectItem value="chinese">{t('languages.chinese')}</SelectItem>
+                <SelectItem value="english">{t('languages.english')}</SelectItem>
               </SelectContent>
             </Select>
           </div>

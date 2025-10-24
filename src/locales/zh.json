@@ -15,5 +15,60 @@
     "events": "活动",
     "teachers": "老师",
     "home": "首页"
+  },
+  "events_section_title": "活动与聚会",
+  "events_section_subtitle": "参加文化活动、语言交流和社交机会。",
+  "learning_section_title": "语言学习",
+  "learning_section_subtitle": "与专业教师联系，享受个性化课程。",
+  "community_section_title": "社区",
+  "community_section_subtitle": "与来自世界各地的朋友和当地人建立持久的联系。",
+  "events_page_title": "即将举行的活动",
+  "events_page_propose": "提议活动",
+  "placeholder_date": "按日期筛选",
+  "placeholder_type": "按类型筛选",
+  "placeholder_subject": "按科目筛选",
+  "filter_today": "今天",
+  "filter_week": "本周",
+  "filter_month": "本月",
+  "filter_language": "语言类",
+  "filter_cultural": "文化类",
+  "filter_professional": "专业类",
+  "join_event": "参加活动",
+  "events": {
+    "1": {
+      "title": "语言交流活动 #1",
+      "date": "每周三",
+      "location": "Tir Na Nog",
+      "description": "在轻松的环境中练习法语和其他语言"
+    },
+    "2": {
+      "title": "语言交流活动 #2",
+      "date": "每周四",
+      "location": "Ya’s Bar",
+      "description": "在轻松的环境中练习法语和其他语言"
+    }
+  },
+  "teachers": {
+    "1": {
+      "name": "Axel Bruni",
+      "subject": "法语作为外语",
+      "bio": "法语母语教师，拥有5年教学经验"
+    },
+    "2": {
+      "name": "Luca Pecoriello",
+      "subject": "意大利语",
+      "bio": "来自都灵的意大利语母语教师"
+    },
+    "3": {
+      "name": "Shang Wenting",
+      "subject": "汉语普通话",
+      "bio": "具有商业背景的中文母语教师"
+    }
+  },
+  "languages": {
+    "french": "法语",
+    "spanish": "西班牙语",
+    "chinese": "普通话",
+    "english": "英语"
   }
 }

@@ -15,5 +15,60 @@
     "events": "Eventos",
     "teachers": "Profesores",
     "home": "Inicio"
+    },
+  "events_section_title": "Eventos y Encuentros",
+  "events_section_subtitle": "Únete a eventos culturales, intercambios de idiomas y oportunidades de networking.",
+   "learning_section_title": "Aprendizaje de idiomas",
+  "learning_section_subtitle": "Conéctate con profesores calificados para clases de idiomas personalizadas.",
+  "community_section_title": "Comunidad",
+  "community_section_subtitle": "Crea vínculos duraderos con otros internacionales y locales.",
+  "events_page_title": "Próximos eventos",
+  "events_page_propose": "Proponer evento",
+  "placeholder_date": "Filtrar por fecha",
+  "placeholder_type": "Filtrar por tipo",
+  "placeholder_subject": "Filtrar por asignatura",
+  "filter_today": "Hoy",
+  "filter_week": "Esta semana",
+  "filter_month": "Este mes",
+  "filter_language": "Lingüístico",
+  "filter_cultural": "Cultural",
+  "filter_professional": "Profesional",
+  "join_event": "Unirse al evento",
+  "events": {
+    "1": {
+      "title": "Intercambio de idiomas #1",
+      "date": "Cada miércoles",
+      "location": "Tir Na Nog",
+      "description": "Practica francés y otros idiomas en un ambiente relajado"
+    },
+    "2": {
+      "title": "Intercambio de idiomas #2",
+      "date": "Cada jueves",
+      "location": "Ya’s Bar",
+      "description": "Practica francés y otros idiomas en un ambiente relajado"
     }
+  },
+  "teachers": {
+    "1": {
+      "name": "Axel Bruni",
+      "subject": "Francés como lengua extranjera",
+      "bio": "Hablante nativo con 5 años de experiencia docente"
+    },
+    "2": {
+      "name": "Luca Pecoriello",
+      "subject": "Lengua italiana",
+      "bio": "Profesor italiano nativo de Turín"
+    },
+    "3": {
+      "name": "Shang Wenting",
+      "subject": "Chino mandarín",
+      "bio": "Profesora nativa china con experiencia empresarial"
+    }
+  },
+  "languages": {
+    "french": "Francés",
+    "spanish": "Español",
+    "chinese": "Chino mandarín",
+    "english": "Inglés"
+  }
 }
