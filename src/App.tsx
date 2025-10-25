@@ -96,7 +96,7 @@ const mockEvents = [
           <Button variant="ghost" onClick={() => setCurrentPage('Home')}>{t('buttons.home')}</Button>
           <Button variant="ghost" onClick={() => setCurrentPage('Events')}>{t('buttons.events')}</Button>
           <Button variant="ghost" onClick={() => setCurrentPage('Teachers')}>{t('buttons.teachers')}</Button>
-          <Button variant="ghost" disabled onClick={() => setCurrentPage('Registration')}>{t('buttons.register')}</Button>
+          <Button variant="ghost" onClick={() => setCurrentPage('Registration')}>{t('buttons.register')}</Button>
         </nav>
         
         <div className="flex items-center space-x-4">
@@ -113,7 +113,7 @@ const mockEvents = [
               </Button>
             ))}
           </div>
-          <Button disabled variant="outline" onClick={() => setCurrentPage('Login')}>
+          <Button variant="outline" onClick={() => setCurrentPage('Login')}>
             <LogIn className="h-4 w-4 mr-2" />
             {t('buttons.login')}
           </Button>
@@ -143,7 +143,7 @@ const mockEvents = [
               <Users className="h-5 w-5 mr-2" />
               {t('find_teachers')}
             </Button>
-            <Button size="lg" variant="outline" disabled onClick={() => setCurrentPage('Registration')}>
+            <Button size="lg" variant="outline" onClick={() => setCurrentPage('Registration')}>
               <UserPlus className="h-5 w-5 mr-2" />
               {t('get_started')}
             </Button>
@@ -312,7 +312,7 @@ const mockEvents = [
                     }}
                   >
                     <MessageSquare className="h-4 w-4 mr-2" />
-                    {t('contact')}
+                    {t('to_contact')}
                   </Button>
                 </CardContent>
               </Card>
@@ -330,20 +330,20 @@ const mockEvents = [
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label className="block mb-2">Your Name</label>
-                <Input placeholder="Enter your name" />
+                <label className="block mb-2">{t('contact.your_name')}</label>
+                <Input placeholder={t('contact.enter_your_name')} />
               </div>
               <div>
-                <label className="block mb-2">Email</label>
-                <Input type="email" placeholder="Enter your email" />
+                <label className="block mb-2">{t('contact.email')}</label>
+                <Input type="email" placeholder={t('contact.enter_your_email')} />
               </div>
               <div>
-                <label className="block mb-2">Message</label>
-                <Textarea placeholder="Write your message..." />
+                <label className="block mb-2">{t('contact.message')}</label>
+                <Textarea placeholder={t('contact.write_your_message')} />
               </div>
               <div className="flex space-x-2">
-                <Button className="flex-1">Send Message</Button>
-                <Button variant="outline" onClick={() => setShowContactForm(false)}>Cancel</Button>
+                <Button className="flex-1">{t('contact.send_message')}</Button>
+                <Button variant="outline" onClick={() => setShowContactForm(false)}>{t('contact.cancel')}</Button>
               </div>
             </CardContent>
           </Card>
@@ -357,8 +357,8 @@ const mockEvents = [
     <div className="py-12 px-6">
       <div className="max-w-2xl mx-auto space-y-8">
         <div className="text-center">
-          <h1 className="text-3xl font-medium mb-4">Join Our Community</h1>
-          <p className="text-muted-foreground">Choose how you'd like to participate</p>
+          <h1 className="text-3xl font-medium mb-4">{t('join_community.title')}</h1>
+          <p className="text-muted-foreground">{t('join_community.subtitle')}</p>
         </div>
 
         {!selectedRegType ? (
@@ -366,90 +366,94 @@ const mockEvents = [
             <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setSelectedRegType('Teach')}>
               <CardHeader className="text-center">
                 <BookOpen className="h-12 w-12 text-primary mx-auto mb-4" />
-                <CardTitle>I Want to Teach</CardTitle>
+                <CardTitle>{t('join_community.teach_button')}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground text-center">Share your knowledge and help others learn your language</p>
+                <p className="text-muted-foreground text-center">{t('join_community.teach_description')}</p>
               </CardContent>
             </Card>
             <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setSelectedRegType('Learn')}>
               <CardHeader className="text-center">
                 <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-                <CardTitle>I Want to Learn</CardTitle>
+                <CardTitle>{t('join_community.learn_button')}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground text-center">Connect with teachers and improve your language skills</p>
+                <p className="text-muted-foreground text-center">{t('join_community.learn_description')}</p>
               </CardContent>
             </Card>
           </div>
         ) : (
           <Card>
-            <CardHeader>
-              <CardTitle>{selectedRegType === 'Teach' ? 'Teacher Registration' : 'Learner Registration'}</CardTitle>
-              <Button variant="ghost" size="sm" onClick={() => setSelectedRegType(null)}>← Back</Button>
+            <CardHeader><CardTitle>{selectedRegType === 'Teach' 
+    ? t('registration.teacher_registration') 
+    : t('registration.learner_registration')}</CardTitle>
+              
+              <Button variant="ghost" size="sm" onClick={() => setSelectedRegType(null)}>← {t('registration.back')} </Button>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <label className="block mb-2">Full Name</label>
-                <Input placeholder="Enter your full name" />
+                <label className="block mb-2">{t('registration.full_name')} </label>
+                <Input placeholder={t('registration.enter_your_full_name')}  />
               </div>
               <div>
-                <label className="block mb-2">Email</label>
-                <Input type="email" placeholder="Enter your email" />
+                <label className="block mb-2">{t('registration.email')} </label>
+                <Input type="email" placeholder={t('registration.enter_your_email')} />
               </div>
               {selectedRegType === 'Teach' ? (
                 <>
                   <div>
-                    <label className="block mb-2">Subject to Teach</label>
+                    <label className="block mb-2">{t('registration.subject_to_teach')}</label>
                     <Select>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select subject" />
+                        <SelectValue placeholder={t('registration.select_subject')} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="french">French</SelectItem>
-                        <SelectItem value="english">English</SelectItem>
-                        <SelectItem value="spanish">Spanish</SelectItem>
-                        <SelectItem value="chinese">Mandarin Chinese</SelectItem>
+                        <SelectItem value="french">{t('registration.french')}</SelectItem>
+                        <SelectItem value="english">{t('registration.english')}</SelectItem>
+                        <SelectItem value="spanish">{t('registration.spanish')}</SelectItem>
+                        <SelectItem value="italian">{t('registration.italian')}</SelectItem>
+                        <SelectItem value="chinese">{t('registration.mandarin_chinese')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
-                    <label className="block mb-2">Teaching Experience</label>
-                    <Textarea placeholder="Describe your teaching experience..." />
+                    <label className="block mb-2">{t('registration.teaching_experience')}</label>
+                    <Textarea placeholder={t('registration.describe_your_teaching_experience')} />
                   </div>
                 </>
               ) : (
                 <>
                   <div>
-                    <label className="block mb-2">Target Language</label>
+                    <label className="block mb-2">{t('registration.target_language')}</label>
                     <Select>
                       <SelectTrigger>
-                        <SelectValue placeholder="Language you want to learn" />
+                        <SelectValue placeholder={t('registration.language_you_want_to_learn')} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="french">French</SelectItem>
-                        <SelectItem value="english">English</SelectItem>
-                        <SelectItem value="spanish">Spanish</SelectItem>
-                        <SelectItem value="chinese">Mandarin Chinese</SelectItem>
+                        <SelectItem value="french">{t('registration.french')} </SelectItem>
+                        <SelectItem value="english">{t('registration.english')} </SelectItem>
+                        <SelectItem value="spanish">{t('registration.spanish')} </SelectItem>
+                        <SelectItem value="italian">{t('registration.italian')} </SelectItem>
+                        <SelectItem value="chinese">{t('registration.mandarin_chinese')} </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div>
-                    <label className="block mb-2">Current Level</label>
+                    <label className="block mb-2">{t('registration.current_level')} </label>
                     <Select>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select your level" />
+                        <SelectValue placeholder={t('registration.select_your_level')} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="beginner">Beginner</SelectItem>
-                        <SelectItem value="intermediate">Intermediate</SelectItem>
-                        <SelectItem value="advanced">Advanced</SelectItem>
+                        <SelectItem value="beginner">{t('registration.beginner')} </SelectItem>
+                        <SelectItem value="intermediate">{t('registration.intermediate')} </SelectItem>
+                        <SelectItem value="advanced">{t('registration.advanced')} </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </>
               )}
-              <Button className="w-full">Complete Registration</Button>
+              <Button className="w-full">{t('registration.complete_registration')}</Button>
             </CardContent>
           </Card>
         )}
@@ -463,29 +467,29 @@ const mockEvents = [
       <div className="max-w-md mx-auto">
         <Card>
           <CardHeader>
-            <CardTitle className="text-center">Login / Sign Up</CardTitle>
+            <CardTitle className="text-center">{t('auth.login_signup')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>
-              <label className="block mb-2">Choose Your Role</label>
+              <label className="block mb-2">{t('auth.choose_role')}</label>
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select your role" />
+                  <SelectValue placeholder={t('auth.select_role')} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="teacher">Teacher</SelectItem>
-                  <SelectItem value="learner">Learner</SelectItem>
+                  <SelectItem value="admin">{t('auth.admin')}</SelectItem>
+                  <SelectItem value="teacher">{t('auth.teacher')}</SelectItem>
+                  <SelectItem value="learner">{t('auth.learner')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <label className="block mb-2">Email</label>
-              <Input type="email" placeholder="Enter your email" />
+              <label className="block mb-2">{t('auth.email')}</label>
+              <Input type="email" placeholder={t('auth.enter_email')}/>
             </div>
             <div>
-              <label className="block mb-2">Password</label>
-              <Input type="password" placeholder="Enter your password" />
+              <label className="block mb-2">{t('auth.password')}</label>
+              <Input type="password" placeholder={t('auth.enter_password')} />
             </div>
             <div className="space-y-2">
               <Button 
@@ -495,9 +499,9 @@ const mockEvents = [
                   setCurrentPage('Dashboard');
                 }}
               >
-                Login
+                {t('auth.login')}
               </Button>
-              <Button variant="outline" className="w-full">Create New Account</Button>
+              <Button variant="outline" className="w-full">{t('auth.create_account')}</Button>
             </div>
           </CardContent>
         </Card>
@@ -512,42 +516,42 @@ const mockEvents = [
         case 'Admin':
           return (
             <div className="space-y-6">
-              <h2 className="text-2xl font-medium">Admin Dashboard</h2>
+              <h2 className="text-2xl font-medium">{t('dashboard.admin_dashboard')}</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <Users className="h-5 w-5 mr-2" />
-                      Manage Users
+                      {t('dashboard.manage_users')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground mb-4">View and manage all platform users</p>
-                    <Button>View Users</Button>
+                    <p className="text-muted-foreground mb-4">{t('dashboard.view_and_manage_all_platform_users')}</p>
+                    <Button>{t('dashboard.view_users')}</Button>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <Calendar className="h-5 w-5 mr-2" />
-                      Manage Events
+                      {t('dashboard.manage_events')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground mb-4">Approve and moderate events</p>
-                    <Button>View Events</Button>
+                    <p className="text-muted-foreground mb-4">{t('dashboard.approve_and_moderate_events')}</p>
+                    <Button>{t('dashboard.view_events')}</Button>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <BookOpen className="h-5 w-5 mr-2" />
-                      Manage Teachers
+                      {t('dashboard.manage_teachers')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground mb-4">Review teacher applications</p>
-                    <Button>View Teachers</Button>
+                    <p className="text-muted-foreground mb-4">{t('dashboard.review_teacher_applications')}</p>
+                    <Button>{t('dashboard.view_teachers')}</Button>
                   </CardContent>
                 </Card>
               </div>
@@ -556,42 +560,42 @@ const mockEvents = [
         case 'Teacher':
           return (
             <div className="space-y-6">
-              <h2 className="text-2xl font-medium">Teacher Dashboard</h2>
+              <h2 className="text-2xl font-medium">{t('teacher_dashboard.title')}</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <Settings className="h-5 w-5 mr-2" />
-                      My Profile
+                      {t('teacher_dashboard.my_profile')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground mb-4">Update your profile and teaching info</p>
-                    <Button>Edit Profile</Button>
+                    <p className="text-muted-foreground mb-4">{t('teacher_dashboard.update_info')}</p>
+                    <Button>{t('teacher_dashboard.edit_profile')}</Button>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <Calendar className="h-5 w-5 mr-2" />
-                      My Events
+                      {t('teacher_dashboard.my_events')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground mb-4">Manage your teaching events</p>
-                    <Button>View Events</Button>
+                    <p className="text-muted-foreground mb-4">{t('teacher_dashboard.manage_events')}</p>
+                    <Button>{t('teacher_dashboard.view_events')}</Button>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <MessageSquare className="h-5 w-5 mr-2" />
-                      Messages
+                      {t('teacher_dashboard.messages')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground mb-4">View student messages</p>
-                    <Button>View Messages</Button>
+                    <p className="text-muted-foreground mb-4">{t('teacher_dashboard.view_students_messages')}</p>
+                    <Button>{t('teacher_dashboard.view_messages')}</Button>
                   </CardContent>
                 </Card>
               </div>
@@ -600,49 +604,49 @@ const mockEvents = [
         case 'Learner':
           return (
             <div className="space-y-6">
-              <h2 className="text-2xl font-medium">Learner Dashboard</h2>
+              <h2 className="text-2xl font-medium">{t('dashboard.learner_dashboard')}</h2>
               <div className="grid md:grid-cols-3 gap-6">
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <Settings className="h-5 w-5 mr-2" />
-                      My Profile
+                      {t('dashboard.my_profile')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground mb-4">Update your learning goals</p>
-                    <Button>Edit Profile</Button>
+                    <p className="text-muted-foreground mb-4">{t('dashboard.update_your_learning_goals')}</p>
+                    <Button>{t('dashboard.edit_profile')}</Button>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <Calendar className="h-5 w-5 mr-2" />
-                      My Events
+                      {t('dashboard.my_events')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground mb-4">View joined events</p>
-                    <Button>View Events</Button>
+                    <p className="text-muted-foreground mb-4">{t('dashboard.view_joined_events')}</p>
+                    <Button>{t('dashboard.view_events')}</Button>
                   </CardContent>
                 </Card>
                 <Card>
                   <CardHeader>
                     <CardTitle className="flex items-center">
                       <Users className="h-5 w-5 mr-2" />
-                      My Contacts
+                      {t('dashboard.my_contacts')}
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-muted-foreground mb-4">Manage teacher contacts</p>
-                    <Button>View Contacts</Button>
+                    <p className="text-muted-foreground mb-4">{t('dashboard.manage_teacher_contacts')}</p>
+                    <Button>{t('dashboard.view_contacts')}</Button>
                   </CardContent>
                 </Card>
               </div>
             </div>
           );
         default:
-          return <div>Please log in to access your dashboard.</div>;
+          return <div>{t('dashboard.please_log_in_to_access_your_dashboard')}</div>;
       }
     };
 
