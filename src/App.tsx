@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from './components/ui/button';
 import { Input } from './components/ui/input';
 import { Textarea } from './components/ui/textarea';
@@ -9,114 +10,115 @@ import { Separator } from './components/ui/separator';
 import { Calendar, Users, BookOpen, MessageSquare, Settings, Plus, Filter, Search, Globe, LogIn, UserPlus } from 'lucide-react';
 import LingoLilleLogo from './img/LingoLille.jpg';
 import qrcode from './img/qrcode.png';
+import { login, register } from './mockAuth';
 import "./i18n";
 import { useTranslation } from "react-i18next";
-
+import LoginPage from './components/LoginPage';
 
 // Types
 type UserRole = 'Admin' | 'Teacher' | 'Learner' | null;
 type Language = 'EN' | 'FR' | 'ES' | 'ZH' | 'IT';
 type Page = 'Home' | 'Events' | 'Teachers' | 'Registration' | 'Login' | 'Dashboard';
 
-
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('Home');
-
+  const [currentPage, setCurrentPage] = useState<'Login' | 'Home'>('login');
   const [userRole, setUserRole] = useState<UserRole>(null);
   const [selectedRegType, setSelectedRegType] = useState<'Teach' | 'Learn' | null>(null);
   const [showContactForm, setShowContactForm] = useState(false);
-  const [selectedTeacher, setSelectedTeacher] = useState<typeof mockTeachers[0] | null>(null);
-  //Translations
-const { t, i18n } = useTranslation();
-const [currentLanguage, setCurrentLanguage] = useState<Language>('EN');
-const handleLanguageChange = (lang: Language) => {
-  setCurrentLanguage(lang);
-  i18n.changeLanguage(lang.toLowerCase()); // i18next attend des codes comme "en", "fr", "es", "zh"
-};
+  const [selectedTeacher, setSelectedTeacher] = useState<any>(null); // Type any pour mock
+  const { t, i18n } = useTranslation();
+  const [currentLanguage, setCurrentLanguage] = useState<Language>('EN');
+  const [isSignup, setIsSignup] = useState(false);
+  const [currentUser, setCurrentUser] =  useState(null);
 
-const mockEvents = [
-  { 
-    id: 1, 
-    title: t('events.1.title'), 
-    date: t('events.1.date'), 
-    location: t('events.1.location'), 
-    description: t('events.1.description'), 
-    type: t('events.1.type') 
-  },
-  { 
-    id: 2, 
-    title: t('events.2.title'), 
-    date: t('events.2.date'), 
-    location: t('events.2.location'), 
-    description: t('events.2.description'), 
-    type: t('events.2.type') 
-  },
-];
 
- const mockTeachers = [
-    { 
-      id: 1, 
-      name: t('teachers.1.name'), 
-      subject: t('teachers.1.subject'), 
-      bio: t('teachers.1.bio'), 
-      photo: '' 
-    },
-    { 
-      id: 2, 
-      name: t('teachers.2.name'), 
-      subject: t('teachers.2.subject'), 
-      bio: t('teachers.2.bio'), 
-      photo: '' 
-    },
-    { 
-      id: 3, 
-      name: t('teachers.3.name'), 
-      subject: t('teachers.3.subject'), 
-      bio: t('teachers.3.bio'), 
-      photo: '' 
-    },
-  ];
 
+  // Récupérer l'utilisateur et le token depuis localStorage au chargement
+  useEffect(() => {
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+      const user = JSON.parse(storedUser);
+      setCurrentUser(user);
+      setUserRole(user.role || null);
+      setCurrentPage('Home');
+    }
+  }, []);
+
+   const handleLogin = (user: any) => {
+    setCurrentUser(user);
+    setUserRole(user.role || null);
+    onLogin(data.user);
+    setCurrentPage('Home');
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('user');
+    setCurrentUser(null);
+    setUserRole(null);
+    setCurrentPage('Home');
+  };
+
+  const handleLanguageChange = (lang: Language) => {
+    setCurrentLanguage(lang);
+    i18n.changeLanguage(lang.toLowerCase());
+  };
+
+  //const mockTeachers = [
+  //  { id: 1, name: t('teachers.1.name'), subject: t('teachers.1.subject'), bio: t('teachers.1.bio'), photo: '' },
+  //  { id: 2, name: t('teachers.2.name'), subject: t('teachers.2.subject'), bio: t('teachers.2.bio'), photo: '' },
+  //  { id: 3, name: t('teachers.3.name'), subject: t('teachers.3.subject'), bio: t('teachers.3.bio'), photo: '' },
+  //];
 
   // Header Component
+  const API_URL = import.meta.env.VITE_API_URL;
   const Header = () => (
     <header className="border-b border-border bg-white px-6 py-4">
       <div className="flex items-center justify-between max-w-7xl mx-auto">
         <div className="flex items-center space-x-2">
-  <img
-    src={LingoLilleLogo}
-    alt="LingoLille"
-    className="h-8 w-8 rounded-full object-cover"
-  />
-  <h1 className="text-xl font-medium">LingoLille</h1>
-</div>
-        
-        
+          <img src={LingoLilleLogo} alt="LingoLille" className="h-8 w-8 rounded-full object-cover" />
+          <h1 className="text-xl font-medium">LingoLille</h1>
+        </div>
         <nav className="hidden md:flex items-center space-x-6">
           <Button variant="ghost" onClick={() => setCurrentPage('Home')}>{t('buttons.home')}</Button>
           <Button variant="ghost" onClick={() => setCurrentPage('Events')}>{t('buttons.events')}</Button>
           <Button variant="ghost" onClick={() => setCurrentPage('Teachers')}>{t('buttons.teachers')}</Button>
           <Button variant="ghost" onClick={() => setCurrentPage('Registration')}>{t('buttons.register')}</Button>
         </nav>
-        
         <div className="flex items-center space-x-4">
           <div className="flex space-x-1">
             {(['EN', 'FR', 'ES', 'ZH', 'IT'] as Language[]).map((lang) => (
-              <Button
-                key={lang}
-                variant={currentLanguage === lang ? "default" : "outline"}
-                size="sm"
-                onClick={() => handleLanguageChange(lang)}
-                className="px-2 py-1 text-sm"
-              >
+              <Button key={lang} variant={currentLanguage === lang ? "default" : "outline"} size="sm" onClick={() => handleLanguageChange(lang)} className="px-2 py-1 text-sm">
                 {lang}
               </Button>
             ))}
           </div>
-          <Button variant="outline" onClick={() => setCurrentPage('Login')}>
-            <LogIn className="h-4 w-4 mr-2" />
-            {t('buttons.login')}
-          </Button>
+          {currentUser ? (
+  <div className="flex items-center space-x-3">
+    <span className="font-medium">
+      Welcome {currentUser.firstName || currentUser.FirstName} ! &nbsp; 
+    </span>
+    <Button
+      variant="outline"
+      size="sm"
+      onClick={() => {
+        // Déconnexion
+        localStorage.removeItem('user');
+        setCurrentUser(null);
+        setCurrentPage('Home'); // redirection vers Home
+      }}
+    >
+      Logout
+    </Button>
+  </div>
+) : (
+  <Button
+    variant="outline"
+    onClick={() => setCurrentPage('Login')} // redirection vers login
+  >
+    <LogIn className="h-4 w-4 mr-2" />
+    {t('buttons.login')}
+  </Button>
+)}
         </div>
       </div>
     </header>
@@ -125,33 +127,17 @@ const mockEvents = [
   // Home Page
   const HomePage = () => (
     <div className="space-y-12 pb-12">
-      {/* Hero Section */}
       <section className="bg-secondary/20 py-16 px-6">
         <div className="max-w-4xl mx-auto text-center space-y-6">
-          <h1 className="text-4xl font-medium text-foreground">
-            {t('home_title')}
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            {t('home_description')}
-          </p>
+          <h1 className="text-4xl font-medium text-foreground">{t('home_title')}</h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">{t('home_description')}</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mt-8">
-            <Button size="lg" onClick={() => setCurrentPage('Events')}>
-              <Calendar className="h-5 w-5 mr-2" />
-              {t('discover_events')}
-            </Button>
-            <Button size="lg" variant="outline" onClick={() => setCurrentPage('Teachers')}>
-              <Users className="h-5 w-5 mr-2" />
-              {t('find_teachers')}
-            </Button>
-            <Button size="lg" variant="outline" onClick={() => setCurrentPage('Registration')}>
-              <UserPlus className="h-5 w-5 mr-2" />
-              {t('get_started')}
-            </Button>
+            <Button size="lg" onClick={() => setCurrentPage('Events')}><Calendar className="h-5 w-5 mr-2" />{t('discover_events')}</Button>
+            <Button size="lg" variant="outline" onClick={() => setCurrentPage('Teachers')}><Users className="h-5 w-5 mr-2" />{t('find_teachers')}</Button>
+            <Button size="lg" variant="outline" onClick={() => setCurrentPage('Login')}><UserPlus className="h-5 w-5 mr-2" />{t('get_started')}</Button>
           </div>
         </div>
       </section>
-
-      {/* Preview Cards */}
       <section className="px-6">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-2xl font-medium text-center mb-8">{t('offer')}</h2>
@@ -164,11 +150,7 @@ const mockEvents = [
               <CardContent>
                 <p className="text-muted-foreground">{t('events_section_subtitle')}</p>
               </CardContent>
-                <img
-    src={qrcode}
-    alt="QrCode"
-    className="h-32 w-32 rounded-xl object-cover"
-  />
+              <img src={qrcode} alt="QrCode" className="h-32 w-32 rounded-xl object-cover" />
             </Card>
             <Card>
               <CardHeader>
@@ -176,7 +158,7 @@ const mockEvents = [
                 <CardTitle>{t('learning_section_title')}</CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-muted-foreground">{t('learning_section_subtitle')}/</p>
+                <p className="text-muted-foreground">{t('learning_section_subtitle')}</p>
               </CardContent>
             </Card>
             <Card>
@@ -194,59 +176,145 @@ const mockEvents = [
     </div>
   );
 
+  
+
   // Events Page
-  const EventsPage = () => (
+const EventsPage = () => {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [selectedDateFilter, setSelectedDateFilter] = useState("");
+
+  // --- Fonction stable pour récupérer les événements ---
+  const fetchEvents = async (filter?: string) => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      let url = `${API_URL}/api/events`;
+      if (filter) {
+        url += `?dateFilter=${filter}`;
+      }
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`HTTP ${response.status}: ${text}`);
+      }
+
+      const data = await response.json();
+      setEvents(data || []); // jamais undefined
+    } catch (err) {
+      console.error("Erreur lors du fetch :", err);
+      setError("Impossible de charger les événements.");
+      setEvents([]); // on vide la liste en cas d'erreur
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // --- Chargement initial ---
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  // --- Filtrage par date ---
+  const handleDateFilter = (filter: string | undefined) => {
+    setSelectedDateFilter(filter || "");
+    fetchEvents(filter);
+  };
+
+  if (loading) {
+    return <p className="text-center py-12">{t("loading") || "Loading..."}</p>;
+  }
+
+  if (error) {
+    return <p className="text-center py-12 text-red-500">{error}</p>;
+  }
+
+  return (
     <div className="space-y-6 pb-12">
       <div className="px-6 py-8">
         <div className="max-w-7xl mx-auto">
+          {/* Header + bouton de création */}
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
-            <h1 className="text-3xl font-medium">{t('events_page_title')}</h1>
-            <Button>
+            <h1 className="text-3xl font-medium">{t("events_page_title")}</h1>
+            <Button
+              onClick={async () => {
+                const title = prompt("Titre de l’événement :");
+                if (!title) return;
+
+                const eventDate = prompt("Date de l’événement (YYYY-MM-DD) :");
+                if (!eventDate) return;
+
+                const frequency = prompt("Fréquence de l’événement :");
+                if (!frequency) return;
+
+                const location = prompt("Lieu de l’événement :");
+                if (!location) return;
+
+                const description = prompt("Description :");
+                if (!description) return;
+
+                const type = prompt("Type (language, cultural, professional) :");
+
+                try {
+                  const response = await fetch(`${API_URL}/api/events`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ title, eventDate, frequency, location, description, type }),
+                  });
+
+                  if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                  const newEvent = await response.json();
+                  setEvents((prev) => [...prev, newEvent]);
+                  alert("Événement créé avec succès !");
+                } catch (err) {
+                  console.error(err);
+                  alert("Erreur lors de la création de l’événement.");
+                }
+              }}
+            >
               <Plus className="h-4 w-4 mr-2" />
-              {t('events_page_propose')}
+              {t("events_page_propose")}
             </Button>
           </div>
-          
-          {/* Filters */}
+
+          {/* 🔍 Filtre by Date */}
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
             <div className="flex items-center space-x-2">
               <Filter className="h-4 w-4" />
-              <Select>
+              <Select
+                value={selectedDateFilter}
+                onValueChange={(value) => handleDateFilter(value)}
+              >
                 <SelectTrigger className="w-48">
-                  <SelectValue placeholder={t('placeholder_date')}/>
+                  <SelectValue placeholder={t("placeholder_date")} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="today">{t('filter_today')}</SelectItem>
-                  <SelectItem value="week">{t('filter_week')}</SelectItem>
-                  <SelectItem value="month">{t('filter_month')}</SelectItem>
+                  <SelectItem value="today">{t("filter_today")}</SelectItem>
+                  <SelectItem value="week">{t("filter_week")}</SelectItem>
+                  <SelectItem value="month">{t("filter_month")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <Select>
-              <SelectTrigger className="w-48">
-                <SelectValue placeholder={t('placeholder_type')} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="language">{t('filter_language')}</SelectItem>
-                <SelectItem value="cultural">{t('filter_cultural')}</SelectItem>
-                <SelectItem value="professional">{t('filter_professional')}</SelectItem>
-              </SelectContent>
-            </Select>
           </div>
 
-          {/* Event Cards */}
+          {/* Liste des événements */}
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockEvents.map((event) => (
+            {events.map((event) => (
               <Card key={event.id} className="hover:shadow-md transition-shadow">
                 <CardHeader>
                   <div className="flex justify-between items-start">
                     <CardTitle className="text-lg">{event.title}</CardTitle>
-                    <Badge variant="secondary">{event.type}</Badge>
+                    <Badge variant="secondary">{event.type || t("filter_general")}</Badge>
                   </div>
                   <div className="space-y-1 text-sm text-muted-foreground">
                     <div className="flex items-center">
                       <Calendar className="h-4 w-4 mr-2" />
-                      {event.date}
+                      {event.eventDate}
                     </div>
                     <div className="flex items-center">
                       <Users className="h-4 w-4 mr-2" />
@@ -256,7 +324,7 @@ const mockEvents = [
                 </CardHeader>
                 <CardContent>
                   <p className="text-muted-foreground">{event.description}</p>
-                  <Button className="w-full mt-4">{t('join_event')}</Button>
+                  <Button className="w-full mt-3">{t("join_event")}</Button>
                 </CardContent>
               </Card>
             ))}
@@ -265,95 +333,79 @@ const mockEvents = [
       </div>
     </div>
   );
+};
 
-  // Teachers Page
-  const TeachersPage = () => (
-    <div className="space-y-6 pb-12">
-      <div className="px-6 py-8">
-        <div className="max-w-7xl mx-auto">
-          <h1 className="text-3xl font-medium mb-8">Find a Teacher</h1>
-          
-          {/* Filter */}
-          <div className="flex items-center space-x-4 mb-8">
-            <Filter className="h-4 w-4" />
-            <Select>
-              <SelectTrigger className="w-64">
-                <SelectValue placeholder={t('placeholder_subject')}  />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="french" >{t('languages.french')}</SelectItem>
-                <SelectItem value="spanish">{t('languages.spanish')}</SelectItem>
-                <SelectItem value="chinese">{t('languages.chinese')}</SelectItem>
-                <SelectItem value="english">{t('languages.english')}</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+// Teachers Page
+const TeachersPage = ({ setSelectedTeacher, setShowContactForm }) => {
+  const [teachers, setTeachers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-          {/* Teachers Grid */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {mockTeachers.map((teacher) => (
-              <Card key={teacher.id} className="hover:shadow-md transition-shadow">
-                <CardHeader className="text-center">
-                  <img
-                    src={teacher.photo}
-                    alt={teacher.name}
-                    className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
-                  />
-                  <CardTitle>{teacher.name}</CardTitle>
-                  <Badge variant="outline">{teacher.subject}</Badge>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground text-center mb-4">{teacher.bio}</p>
-                  <Button 
-                    className="w-full" 
-                    onClick={() => {
-                      setSelectedTeacher(teacher);
-                      setShowContactForm(true);
-                    }}
-                  >
-                    <MessageSquare className="h-4 w-4 mr-2" />
-                    {t('to_contact')}
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </div>
+useEffect(() => {
+  const fetchTeachers = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch(`${API_URL}/api/teachers`);
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const data = await response.json();
+      setTeachers(data);
+    } catch (err) {
+      console.error(err);
+      setError('Impossible de charger les profs.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
-      {/* Contact Form Modal */}
-      {showContactForm && selectedTeacher && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <Card className="w-full max-w-md">
-            <CardHeader>
-              <CardTitle>Contact {selectedTeacher.name}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <label className="block mb-2">{t('contact.your_name')}</label>
-                <Input placeholder={t('contact.enter_your_name')} />
-              </div>
-              <div>
-                <label className="block mb-2">{t('contact.email')}</label>
-                <Input type="email" placeholder={t('contact.enter_your_email')} />
-              </div>
-              <div>
-                <label className="block mb-2">{t('contact.message')}</label>
-                <Textarea placeholder={t('contact.write_your_message')} />
-              </div>
-              <div className="flex space-x-2">
-                <Button className="flex-1">{t('contact.send_message')}</Button>
-                <Button variant="outline" onClick={() => setShowContactForm(false)}>{t('contact.cancel')}</Button>
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
+  fetchTeachers();
+}, []);
+
+  if (loading) return <p className="text-center py-12">{t('loading') || 'Loading...'}</p>;
+  if (error) return <p className="text-center py-12 text-red-500">{error}</p>;
+
+  return (
+    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {teachers.map((teacher) => (
+        <Card key={teacher.id} className="hover:shadow-md transition-shadow">
+          <CardHeader className="text-center">
+            <img
+              src={teacher.Video || '/default-avatar.png'}
+              alt={teacher.FirstName}
+              className="w-20 h-20 rounded-full mx-auto mb-4 object-cover"
+            />
+            <CardTitle>{teacher.FirstName} {teacher.LastName}</CardTitle>
+            <Badge variant="outline">{teacher.Email}</Badge>
+            <Badge variant="outline">{teacher.Subject}</Badge>
+          </CardHeader>
+          <CardContent>
+            <p className="text-muted-foreground text-center mb-4">{teacher.Description}</p>
+            <Button
+              className="w-full"
+              onClick={() => {
+                setSelectedTeacher(teacher);
+                setShowContactForm(true);
+              }}
+            >
+              <MessageSquare className="h-4 w-4 mr-2" />
+              {t('to_contact')}
+            </Button>
+          </CardContent>
+        </Card>
+      ))}
     </div>
   );
+};
 
   // Registration Page
-  const RegistrationPage = () => (
+const RegistrationPage = ({
+  setCurrentPage,
+  setSelectedRegType,
+  currentUser
+}) => {
+  const { t } = useTranslation();
+
+  return (
     <div className="py-12 px-6">
       <div className="max-w-2xl mx-auto space-y-8">
         <div className="text-center">
@@ -361,153 +413,61 @@ const mockEvents = [
           <p className="text-muted-foreground">{t('join_community.subtitle')}</p>
         </div>
 
-        {!selectedRegType ? (
-          <div className="grid md:grid-cols-2 gap-6">
-            <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setSelectedRegType('Teach')}>
-              <CardHeader className="text-center">
-                <BookOpen className="h-12 w-12 text-primary mx-auto mb-4" />
-                <CardTitle>{t('join_community.teach_button')}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-center">{t('join_community.teach_description')}</p>
-              </CardContent>
-            </Card>
-            <Card className="cursor-pointer hover:shadow-md transition-shadow" onClick={() => setSelectedRegType('Learn')}>
-              <CardHeader className="text-center">
-                <Users className="h-12 w-12 text-primary mx-auto mb-4" />
-                <CardTitle>{t('join_community.learn_button')}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground text-center">{t('join_community.learn_description')}</p>
-              </CardContent>
-            </Card>
-          </div>
-        ) : (
-          <Card>
-            <CardHeader><CardTitle>{selectedRegType === 'Teach' 
-    ? t('registration.teacher_registration') 
-    : t('registration.learner_registration')}</CardTitle>
-              
-              <Button variant="ghost" size="sm" onClick={() => setSelectedRegType(null)}>← {t('registration.back')} </Button>
+        <div className="grid md:grid-cols-2 gap-6">
+          <Card
+            className="cursor-pointer hover:shadow-md transition-shadow"
+            onClick={() => {
+              setSelectedRegType('Teacher');
+              setCurrentPage('Login');
+            }}
+          >
+            <CardHeader className="text-center">
+              <BookOpen className="h-12 w-12 text-primary mx-auto mb-4" />
+              <CardTitle>{t('join_community.teach_button')}</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div>
-                <label className="block mb-2">{t('registration.full_name')} </label>
-                <Input placeholder={t('registration.enter_your_full_name')}  />
-              </div>
-              <div>
-                <label className="block mb-2">{t('registration.email')} </label>
-                <Input type="email" placeholder={t('registration.enter_your_email')} />
-              </div>
-              {selectedRegType === 'Teach' ? (
-                <>
-                  <div>
-                    <label className="block mb-2">{t('registration.subject_to_teach')}</label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder={t('registration.select_subject')} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="french">{t('registration.french')}</SelectItem>
-                        <SelectItem value="english">{t('registration.english')}</SelectItem>
-                        <SelectItem value="spanish">{t('registration.spanish')}</SelectItem>
-                        <SelectItem value="italian">{t('registration.italian')}</SelectItem>
-                        <SelectItem value="chinese">{t('registration.mandarin_chinese')}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <label className="block mb-2">{t('registration.teaching_experience')}</label>
-                    <Textarea placeholder={t('registration.describe_your_teaching_experience')} />
-                  </div>
-                </>
-              ) : (
-                <>
-                  <div>
-                    <label className="block mb-2">{t('registration.target_language')}</label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder={t('registration.language_you_want_to_learn')} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="french">{t('registration.french')} </SelectItem>
-                        <SelectItem value="english">{t('registration.english')} </SelectItem>
-                        <SelectItem value="spanish">{t('registration.spanish')} </SelectItem>
-                        <SelectItem value="italian">{t('registration.italian')} </SelectItem>
-                        <SelectItem value="chinese">{t('registration.mandarin_chinese')} </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div>
-                    <label className="block mb-2">{t('registration.current_level')} </label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder={t('registration.select_your_level')} />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="beginner">{t('registration.beginner')} </SelectItem>
-                        <SelectItem value="intermediate">{t('registration.intermediate')} </SelectItem>
-                        <SelectItem value="advanced">{t('registration.advanced')} </SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </>
-              )}
-              <Button className="w-full">{t('registration.complete_registration')}</Button>
+            <CardContent>
+              <p className="text-muted-foreground text-center">
+                {t('join_community.teach_description')}
+              </p>
             </CardContent>
           </Card>
+
+          <Card
+            className="cursor-pointer hover:shadow-md transition-shadow"
+            onClick={() => {
+              setSelectedRegType('Learner');
+              setCurrentPage('Login');
+            }}
+          >
+            <CardHeader className="text-center">
+              <Users className="h-12 w-12 text-primary mx-auto mb-4" />
+              <CardTitle>{t('join_community.learn_button')}</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <p className="text-muted-foreground text-center">
+                {t('join_community.learn_description')}
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {currentUser && (
+          <div className="text-right p-4">
+            Welcome {currentUser.firstName}!
+          </div>
         )}
       </div>
     </div>
   );
+};
+
 
   // Login/Signup Page
-  const LoginPage = () => (
-    <div className="py-12 px-6">
-      <div className="max-w-md mx-auto">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-center">{t('auth.login_signup')}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <label className="block mb-2">{t('auth.choose_role')}</label>
-              <Select>
-                <SelectTrigger>
-                  <SelectValue placeholder={t('auth.select_role')} />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="admin">{t('auth.admin')}</SelectItem>
-                  <SelectItem value="teacher">{t('auth.teacher')}</SelectItem>
-                  <SelectItem value="learner">{t('auth.learner')}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div>
-              <label className="block mb-2">{t('auth.email')}</label>
-              <Input type="email" placeholder={t('auth.enter_email')}/>
-            </div>
-            <div>
-              <label className="block mb-2">{t('auth.password')}</label>
-              <Input type="password" placeholder={t('auth.enter_password')} />
-            </div>
-            <div className="space-y-2">
-              <Button 
-                className="w-full" 
-                onClick={() => {
-                  setUserRole('Teacher'); // Mock login
-                  setCurrentPage('Dashboard');
-                }}
-              >
-                {t('auth.login')}
-              </Button>
-              <Button variant="outline" className="w-full">{t('auth.create_account')}</Button>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
-  );
+// Login/Signup Page
+
+//<LoginPage onLogin={setCurrentUser} />;
+//{currentUser && <div>Welcome {currentUser.firstName}!</div>}
+
 
   // Dashboard Page
   const DashboardPage = () => {
@@ -665,8 +625,25 @@ const mockEvents = [
       case 'Home': return <HomePage />;
       case 'Events': return <EventsPage />;
       case 'Teachers': return <TeachersPage />;
-      case 'Registration': return <RegistrationPage />;
-      case 'Login': return <LoginPage />;
+          case 'Registration':
+      return (
+        <RegistrationPage
+          setCurrentPage={setCurrentPage}
+          setSelectedRegType={setSelectedRegType}
+          selectedRegType={selectedRegType}
+          currentUser={currentUser}
+        />
+      );
+    case 'Login':
+      return (
+        <LoginPage
+          role={selectedRegType} // rôle prérempli Teach/Learn
+          onLogin={(user) => {
+            setCurrentUser(user);
+            setCurrentPage('Home'); // redirection après login
+          }}
+        />
+      );
       case 'Dashboard': return <DashboardPage />;
       default: return <HomePage />;
     }

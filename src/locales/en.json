@@ -34,7 +34,7 @@
   "filter_cultural": "Cultural",
   "filter_professional": "Professional",
   "join_event": "Join Event",
-  "events": {
+  "events_list": {
     "1": {
       "title": "Language Exchange meeting #1",
       "date": "Every Wednesday",
@@ -48,7 +48,7 @@
       "description": "Practice French and foreign languages in a relaxed environment"
     }
   },
-  "teachers": {
+  "teachers_list": {
     "1": {
       "name": "Axel Bruni",
       "subject": "French As A Foreign Language",
@@ -69,9 +69,19 @@
     "french": "French Language",
     "spanish": "Spanish Language",
     "chinese": "Mandarin Chinese",
-    "english": "English Language"
+    "english": "English Language",
+    "italian": "Italian Language"
   },
-  "to_contact": "Contact",
+  "contact": {
+    "your_name": "Your Name",
+    "enter_your_name": "Enter your name",
+    "email": "Email",
+    "enter_your_email": "Enter your email",
+    "message": "Message",
+    "write_your_message": "Write your message...",
+    "send_message": "Send Message",
+    "cancel": "Cancel"
+  },
   "auth": {
     "login_signup": "Login / Sign Up",
     "choose_role": "Choose Your Role",
@@ -79,111 +89,22 @@
     "admin": "Admin",
     "teacher": "Teacher",
     "learner": "Learner",
+    "first_name": "First Name",
+    "enter_first_name": "Enter your first name",
+    "last_name": "Last Name",
+    "enter_last_name": "Enter your last name",
+    "description": "Description",
+    "enter_description": "Enter your description",
+    "video": "Video",
     "email": "Email",
     "enter_email": "Enter your email",
     "password": "Password",
     "enter_password": "Enter your password",
     "login": "Login",
-    "create_account": "Create New Account"
-  },
-  "teacher_dashboard": {
-    "title": "Teacher Dashboard",
-    "my_profile": "My Profile",
-    "update_info": "Update your profile and teaching info",
-    "edit_profile": "Edit Profile",
-    "my_events": "My Events",
-    "manage_events": "Manage your teaching events",
-    "view_events": "View Events",
-    "messages": "Messages",
-    "view_messages": "View Messages",
-    "view_students_messages": "View Student Messages"
-  },
-  "home_title": "Connect, Learn, Grow in Lille",
-  "home_description": "Your platform for language exchange, cultural events, and building connections as an international in Lille.",
-  "discover_events": "Discover Events",
-  "find_teachers": "Find Teachers",
-  "get_started": "Get Started",
-  "events": "Events",
-  "teachers": "Teachers",
-  "register": "Register",
-  "login": "Login",
-  "offer": "What We Offer",
-  "buttons": {
-    "login": "Login",
-    "register": "Register",
-    "events": "Events",
-    "teachers": "Teachers",
-    "home": "Home"
-  },
-  "events_section_title": "Events & Meetups",
-  "events_section_subtitle": "Join cultural events, language exchanges, and networking opportunities.",
-  "learning_section_title": "Language Learning",
-  "learning_section_subtitle": "Connect with qualified teachers for personalized language lessons.",
-  "community_section_title": "Community",
-  "community_section_subtitle": "Build lasting connections with fellow internationals and locals.",
-  "events_page_title": "Upcoming Events",
-  "events_page_propose": "Propose Event",
-  "placeholder_date": "Filter by date",
-  "placeholder_type": "Filter by type",
-  "placeholder_subject": "Filter by subject",
-  "filter_today": "Today",
-  "filter_week": "This Week",
-  "filter_month": "This Month",
-  "filter_language": "Language",
-  "filter_cultural": "Cultural",
-  "filter_professional": "Professional",
-  "join_event": "Join Event",
-  "events": {
-    "1": {
-      "title": "Language Exchange meeting #1",
-      "date": "Every Wednesday",
-      "location": "Tir Na Nog",
-      "description": "Practice French and foreign languages in a relaxed environment"
-    },
-    "2": {
-      "title": "Language Exchange meeting #2",
-      "date": "Every Thursday",
-      "location": "Ya’s Bar",
-      "description": "Practice French and foreign languages in a relaxed environment"
-    }
-  },
-  "teachers": {
-    "1": {
-      "name": "Axel Bruni",
-      "subject": "French As A Foreign Language",
-      "bio": "Native French speaker with 5 years teaching experience"
-    },
-    "2": {
-      "name": "Luca Pecoriello",
-      "subject": "Italian Language",
-      "bio": "Italian native teacher from Torino"
-    },
-    "3": {
-      "name": "Shang Wenting",
-      "subject": "Mandarin Chinese",
-      "bio": "Chinese native teacher with business background"
-    }
-  },
-  "languages": {
-    "french": "French Language",
-    "spanish": "Spanish Language",
-    "chinese": "Mandarin Chinese",
-    "english": "English Language"
-  },
-  "contact": "Contact",
-  "auth": {
-    "login_signup": "Login / Sign Up",
-    "choose_role": "Choose Your Role",
-    "select_role": "Select your role",
-    "admin": "Admin",
-    "teacher": "Teacher",
-    "learner": "Learner",
-    "email": "Email",
-    "enter_email": "Enter your email",
-    "password": "Password",
-    "enter_password": "Enter your password",
-    "login": "Login",
-    "create_account": "Create New Account"
+    "signup": "Sign Up",
+    "create_account": "Create New Account",
+    "back_to_login": "Back to login",
+    "loading": "Loading..."
   },
   "teacher_dashboard": {
     "title": "Teacher Dashboard",
@@ -205,62 +126,47 @@
     "learn_button": "I Want to Learn",
     "learn_description": "Connect with teachers and improve your language skills"
   },
-  "contact": {
-      "your_name": "Your Name",
-      "enter_your_name": "Enter your name",
-      "email": "Email",
-      "enter_your_email": "Enter your email",
-      "message": "Message",
-      "write_your_message": "Write your message...",
-      "send_message": "Send Message",
-      "cancel": "Cancel"  
-  },
   "registration": {
-      "learner_registration": "Learner Registration",
-      "teacher_registration": "Teacher Registration",
-      "back": "Back",
-      "full_name": "Full Name",
-      "enter_your_full_name": "Enter your full name",
-      "email": "Email",
-      "enter_your_email": "Enter your email",
-      "subject_to_teach": "Subject to Teach",
-      "select_subject": "Select subject",
-      "french": "French",
-      "english": "English",
-      "spanish": "Spanish",
-      "italian": "Italian",
-      "mandarin_chinese": "Mandarin Chinese",
-      "teaching_experience": "Teaching Experience",
-      "describe_your_teaching_experience": "Describe your teaching experience...",
-      "target_language": "Target Language",
-      "language_you_want_to_learn": "Language you want to learn",
-      "current_level": "Current Level",
-      "select_your_level": "Select your level",
-      "beginner": "Beginner",
-      "intermediate": "Intermediate",
-      "advanced": "Advanced",
-      "complete_registration": "Complete Registration"
+    "learner_registration": "Learner Registration",
+    "teacher_registration": "Teacher Registration",
+    "back": "Back",
+    "full_name": "Full Name",
+    "enter_your_full_name": "Enter your full name",
+    "email": "Email",
+    "enter_your_email": "Enter your email",
+    "subject_to_teach": "Subject to Teach",
+    "select_subject": "Select subject",
+    "teaching_experience": "Teaching Experience",
+    "describe_your_teaching_experience": "Describe your teaching experience...",
+    "target_language": "Target Language",
+    "language_you_want_to_learn": "Language you want to learn",
+    "current_level": "Current Level",
+    "select_your_level": "Select your level",
+    "beginner": "Beginner",
+    "intermediate": "Intermediate",
+    "advanced": "Advanced",
+    "complete_registration": "Complete Registration"
   },
   "dashboard": {
     "admin_dashboard": "Admin Dashboard",
-      "manage_users": "Manage Users",
-      "view_and_manage_all_platform_users": "View and manage all platform users",
-      "view_users": "View Users",
-      "manage_events": "Manage Events",
-      "approve_and_moderate_events": "Approve and moderate events",
-      "view_events": "View Events",
-      "manage_teachers": "Manage Teachers",
-      "review_teacher_applications": "Review teacher applications",
-      "view_teachers": "View Teachers",
-      "my_profile": "My Profile",
-      "update_your_learning_goals": "Update your learning goals",
-      "edit_profile": "Edit Profile",
-      "learner_dashboard": "Learner Dashboard",
-      "my_events": "My Events",
-      "my_contacts": "My Contacts",
-      "view_contacts": "View Contacts",
-      "view_joined_events": "View joined events",
-      "manage_teacher_contacts": "Manage teacher contacts",
-      "please_log_in_to_access_your_dashboard": "Please log in to access your dashboard."
+    "manage_users": "Manage Users",
+    "view_and_manage_all_platform_users": "View and manage all platform users",
+    "view_users": "View Users",
+    "manage_events": "Manage Events",
+    "approve_and_moderate_events": "Approve and moderate events",
+    "view_events": "View Events",
+    "manage_teachers": "Manage Teachers",
+    "review_teacher_applications": "Review teacher applications",
+    "view_teachers": "View Teachers",
+    "my_profile": "My Profile",
+    "update_your_learning_goals": "Update your learning goals",
+    "edit_profile": "Edit Profile",
+    "learner_dashboard": "Learner Dashboard",
+    "my_events": "My Events",
+    "my_contacts": "My Contacts",
+    "view_contacts": "View Contacts",
+    "view_joined_events": "View joined events",
+    "manage_teacher_contacts": "Manage teacher contacts",
+    "please_log_in_to_access_your_dashboard": "Please log in to access your dashboard."
   }
 }

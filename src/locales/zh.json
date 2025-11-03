@@ -79,12 +79,21 @@
     "admin": "管理员",
     "teacher": "教师",
     "learner": "学习者",
+    "first_name": "名字",
+    "enter_first_name": "请输入您的名字",
+    "last_name" : "姓",
+    "enter_last_name": "请输入您的姓",
+    "description" : "描述",
+    "enter_description": "请输入您的描述",
+    "video" : "视频",
     "email": "邮箱",
     "enter_email": "请输入您的邮箱",
     "password": "密码",
     "enter_password": "请输入您的密码",
     "login": "登录",
-    "create_account": "创建新账户"
+    "signup": "注册",
+    "create_account": "创建新账户",
+    "back_to_login" : "返回登录"
   },
   "teacher_dashboard": {
     "title": "教师控制面板",

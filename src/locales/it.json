@@ -88,12 +88,21 @@
     "admin": "Amministratore",
     "teacher": "Insegnante",
     "learner": "Studente",
+    "first_name": "Nome",
+    "enter_first_name": "Inserisci il tuo nome",
+    "last_name" : "Cognome",
+    "enter_last_name": "Inserisci il tuo cognome",
+    "description" : "Descrizione",
+    "enter_description": "Introduce tu descrizione",
+    "video" : "Video",
     "email": "Email",
     "enter_email": "Inserisci la tua email",
     "password": "Password",
     "enter_password": "Inserisci la tua password",
     "login": "Accedi",
-    "create_account": "Crea un nuovo account"
+    "signup": "Registrati",
+    "create_account": "Crea un nuovo account",
+    "back_to_login" : "Torna al login"
   },
   "teacher_dashboard": {
     "title": "Dashboard insegnante",

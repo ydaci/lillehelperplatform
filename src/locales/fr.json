@@ -78,12 +78,21 @@
     "admin": "Administrateur",
     "teacher": "Enseignant",
     "learner": "Apprenant",
+    "first_name": "Prénom",
+    "enter_first_name": "Entrez votre prénom",
+    "last_name" : "Nom",
+    "enter_last_name": "Entrez votre nom",
+    "description" : "Description",
+    "enter_description": "Entrez votre description",
+    "video" : "Video",
     "email": "Adresse e-mail",
     "enter_email": "Entrez votre adresse e-mail",
     "password": "Mot de passe",
     "enter_password": "Entrez votre mot de passe",
     "login": "Connexion",
-    "create_account": "Créer un nouveau compte"
+    "signup": "Inscription",
+    "create_account": "Créer un nouveau compte",
+    "back_to_login" : "Retour à la connexion"
   },
   "teacher_dashboard": {
     "title": "Tableau de bord enseignant",
