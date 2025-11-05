@@ -50,7 +50,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ role, onLogin }) => {
 
       console.log("👉 Données envoyées :", payload);
 
-      const response = await fetch("http://localhost:5000/api/signup", {
+      const response = await fetch(`${API_URL}/api/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -89,7 +89,7 @@ const handleLogin = async () => {
     setLoading(true);
     setError('');
 
-    const res = await fetch('http://localhost:5000/api/login', {
+    const res = await fetch(`${API_URL}/api/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ role: selectedRole, email, password }),

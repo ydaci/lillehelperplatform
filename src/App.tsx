@@ -10,6 +10,7 @@ import { Separator } from './components/ui/separator';
 import { Calendar, Users, BookOpen, MessageSquare, Settings, Plus, Filter, Search, Globe, LogIn, UserPlus } from 'lucide-react';
 import LingoLilleLogo from './img/LingoLille.jpg';
 import qrcode from './img/qrcode.png';
+import instagram from './img/instagram.png';
 import { login, register } from './mockAuth';
 import "./i18n";
 import { useTranslation } from "react-i18next";
@@ -150,7 +151,10 @@ export default function App() {
               <CardContent>
                 <p className="text-muted-foreground">{t('events_section_subtitle')}</p>
               </CardContent>
+              <p className="text-muted-foreground">WhatsApp</p>
               <img src={qrcode} alt="QrCode" className="h-32 w-32 rounded-xl object-cover" />
+              <p className="text-muted-foreground">Instagram</p>
+              <img src={instagram} alt="Insta" className="h-32 w-32 rounded-xl object-cover" />
             </Card>
             <Card>
               <CardHeader>
