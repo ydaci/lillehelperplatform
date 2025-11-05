@@ -4,54 +4,90 @@ import cors from 'cors';
 import bcrypt from 'bcrypt';
 import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
+import pkg from 'pg';
 dotenv.config();
+
+const { Pool } = pkg;
 
 const app = express();
 app.use(cors());
-app.use(express.json({ limit: '10mb' })); // augmente si besoin
+app.use(express.json({ limit: '10mb' }));
 
-// --- CONFIG DB ---
-const DB_HOST = process.env.DB_HOST;
-const DB_USER = process.env.DB_USER;
-const DB_PASSWORD = process.env.DB_PASSWORD;
-const DB_NAME = process.env.DB_NAME;
-const PORT = process.env.PORT || 5000;
-// ----------------------------------------
+// --- CONFIG --- //
+const {
+  DB_HOST,
+  DB_USER,
+  DB_PASSWORD,
+  DB_NAME,
+  DATABASE_URL,
+  PORT = 5000
+} = process.env;
 
 let pool;
 
-// Initialisation DB
+// --- CHOIX DU MODE : LOCAL (MySQL) OU DEPLOIEMENT (PostgreSQL) --- //
 async function initDb() {
-  pool = mysql.createPool({
-    host: DB_HOST,
-    user: DB_USER,
-    password: DB_PASSWORD,
-    database: DB_NAME,
-    waitForConnections: true,
-    connectionLimit: 10,
-    queueLimit: 0,
-  });
-
-  try {
-    const [rows] = await pool.query('SELECT 1 + 1 AS two');
-    console.log('✅ DB connection OK, test query result:', rows[0].two);
-  } catch (err) {
-    console.error('❌ DB connection error:', err);
-    process.exit(1);
+  if (DATABASE_URL) {
+    console.log('🌐 Using PostgreSQL (Supabase) connection');
+    pool = new Pool({
+      connectionString: DATABASE_URL,
+      ssl: { rejectUnauthorized: false },
+    });
+    try {
+      const client = await pool.connect();
+      await client.query('SELECT NOW()');
+      console.log('✅ Connected to PostgreSQL successfully');
+      client.release();
+    } catch (err) {
+      console.error('❌ PostgreSQL connection error:', err);
+      process.exit(1);
+    }
+  } else {
+    console.log('💻 Using local MySQL connection');
+    pool = await mysql.createPool({
+      host: DB_HOST,
+      user: DB_USER,
+      password: DB_PASSWORD,
+      database: DB_NAME,
+      waitForConnections: true,
+      connectionLimit: 10,
+      queueLimit: 0,
+    });
+    try {
+      const [rows] = await pool.query('SELECT 1 + 1 AS two');
+      console.log('✅ MySQL connection OK, test query result:', rows[0].two);
+    } catch (err) {
+      console.error('❌ MySQL connection error:', err);
+      process.exit(1);
+    }
   }
 }
 
-// Helper : vérifier si un email existe dans une des tables
+// --- Helper unifié pour exécuter des requêtes --- //
+async function queryDB(sql, params = []) {
+  if (DATABASE_URL) {
+    // PostgreSQL → remplacer les ? par $1, $2, ...
+    const pgSql = sql.replace(/\?/g, (_, i, s) => `$${(s.slice(0, i).match(/\?/g) || []).length + 1}`);
+    const result = await pool.query(pgSql, params);
+    return result.rows;
+  } else {
+    // MySQL
+    const [rows] = await pool.query(sql, params);
+    return rows;
+  }
+}
+
+// --- Vérifie si un email existe dans une des tables --- //
 async function emailExists(email) {
   const tables = ['Teacher', 'Student', 'Administrator'];
   for (const table of tables) {
-    const [rows] = await pool.query(`SELECT id FROM \`${table}\` WHERE Email = ? LIMIT 1`, [email]);
+    const rows = await queryDB(`SELECT id FROM ${table} WHERE Email = ? LIMIT 1`, [email]);
     if (rows.length > 0) return true;
   }
   return false;
 }
 
-// --- SIGNUP ---
+// --- SIGNUP --- //
 app.post('/api/signup', async (req, res) => {
   try {
     let { role, firstName, lastName, email, password, description, video } = req.body || {};
@@ -61,7 +97,6 @@ app.post('/api/signup', async (req, res) => {
     }
 
     role = String(role).trim();
-
     let roleNormalized;
     if (/^teacher$/i.test(role)) roleNormalized = 'Teacher';
     else if (/^(learner|student)$/i.test(role)) roleNormalized = 'Student';
@@ -91,15 +126,15 @@ app.post('/api/signup', async (req, res) => {
       params = [firstName || null, lastName || null, email, hashedPassword];
     }
 
-    const [result] = await pool.query(sql, params);
-    return res.json({ success: true, id: result.insertId });
+    await queryDB(sql, params);
+    return res.json({ success: true });
   } catch (err) {
     console.error('❌ /api/signup error:', err);
     return res.status(500).json({ success: false, error: 'Server error' });
   }
 });
 
-// --- LOGIN ---
+// --- LOGIN --- //
 app.post('/api/login', async (req, res) => {
   const { role, email, password } = req.body;
 
@@ -123,8 +158,7 @@ app.post('/api/login', async (req, res) => {
         return res.status(400).json({ message: 'Invalid role' });
     }
 
-    const [rows] = await pool.query(`SELECT * FROM ${tableName} WHERE Email = ?`, [email]);
-
+    const rows = await queryDB(`SELECT * FROM ${tableName} WHERE Email = ?`, [email]);
     if (rows.length === 0) {
       return res.status(401).json({ message: 'Invalid credentials' });
     }
@@ -144,45 +178,49 @@ app.post('/api/login', async (req, res) => {
       },
     });
   } catch (err) {
-    console.error('❌ Server error:', err);
+    console.error('❌ /api/login error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-// --- GET TEACHERS ---
+// --- GET TEACHERS --- //
 app.get('/api/teachers', async (req, res) => {
   try {
-    const [rows] = await pool.query('SELECT * FROM Teacher');
+    const rows = await queryDB('SELECT * FROM Teacher');
     res.json(rows);
   } catch (err) {
-    console.error(err);
+    console.error('❌ /api/teachers error:', err);
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
 
-// --- GET EVENTS ---
+// --- GET EVENTS --- //
 app.get('/api/events', async (req, res) => {
   try {
     const dateFilter = req.query.dateFilter;
-    let query = "SELECT * FROM Event";
+    let query = 'SELECT * FROM Event';
 
-    if (dateFilter === "today") {
-      query += " WHERE eventDateReal = CURDATE()";
-    } else if (dateFilter === "week") {
-      query += " WHERE YEARWEEK(eventDateReal, 1) = YEARWEEK(CURDATE(), 1)";
-    } else if (dateFilter === "month") {
-      query += " WHERE YEAR(eventDateReal) = YEAR(CURDATE()) AND MONTH(eventDateReal) = MONTH(CURDATE())";
+    if (dateFilter === 'today') {
+      query += ' WHERE eventDateReal = CURRENT_DATE';
+    } else if (dateFilter === 'week') {
+      query += DATABASE_URL
+        ? " WHERE DATE_PART('week', eventDateReal) = DATE_PART('week', CURRENT_DATE)"
+        : ' WHERE YEARWEEK(eventDateReal, 1) = YEARWEEK(CURDATE(), 1)';
+    } else if (dateFilter === 'month') {
+      query += DATABASE_URL
+        ? " WHERE DATE_PART('month', eventDateReal) = DATE_PART('month', CURRENT_DATE)"
+        : ' WHERE YEAR(eventDateReal) = YEAR(CURDATE()) AND MONTH(eventDateReal) = MONTH(CURDATE())';
     }
 
-    const [rows] = await pool.query(query);
+    const rows = await queryDB(query);
     res.json(rows || []);
   } catch (err) {
-    console.error("Erreur backend /api/events :", err);
-    res.status(500).json({ error: "Erreur serveur" });
+    console.error('❌ /api/events error:', err);
+    res.status(500).json({ error: 'Erreur serveur' });
   }
 });
 
-// --- POST EVENTS ---
+// --- POST EVENTS --- //
 app.post('/api/events', async (req, res) => {
   try {
     const { title, eventDate, frequency, location, description, type } = req.body;
@@ -191,20 +229,17 @@ app.post('/api/events', async (req, res) => {
       return res.status(400).json({ error: 'Tous les champs sont requis.' });
     }
 
-    const [result] = await pool.query(
-      'INSERT INTO Event (title, eventDate, frequency, location, description) VALUES (?, ?, ?, ?, ?)',
-      [title, eventDate, frequency, location, description]
-    );
+    const sql = 'INSERT INTO Event (title, eventDate, frequency, location, description) VALUES (?, ?, ?, ?, ?)';
+    await queryDB(sql, [title, eventDate, frequency, location, description]);
 
-    const newEvent = { id: result.insertId, title, eventDate, frequency, location, description, type };
-    res.status(201).json(newEvent);
+    res.status(201).json({ success: true });
   } catch (err) {
-    console.error(err);
+    console.error('❌ /api/events POST error:', err);
     res.status(500).json({ error: 'Erreur serveur lors de la création de l’événement.' });
   }
 });
 
-// --- START SERVER ---
+// --- START SERVER --- //
 initDb().then(() => {
   app.listen(PORT, () => {
     console.log(`🚀 Server listening on http://localhost:${PORT}`);
