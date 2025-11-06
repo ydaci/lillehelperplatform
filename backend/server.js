@@ -29,18 +29,34 @@ let pool;
 async function initDb() {
   if (DATABASE_URL) {
     console.log('🌐 Using PostgreSQL (Supabase) connection');
-    pool = new Pool({
-      connectionString: DATABASE_URL,
-      ssl: { rejectUnauthorized: false },
-    });
     try {
+      pool = new Pool({
+        connectionString: DATABASE_URL,
+        ssl: { rejectUnauthorized: false },
+      });
       const client = await pool.connect();
       await client.query('SELECT NOW()');
       console.log('✅ Connected to PostgreSQL successfully');
       client.release();
     } catch (err) {
-      console.error('❌ PostgreSQL connection error:', err);
-      process.exit(1);
+      console.error('❌ PostgreSQL connection error:', err.message);
+      console.warn('⚠️ Falling back to local MySQL for development...');
+      pool = await mysql.createPool({
+        host: DB_HOST,
+        user: DB_USER,
+        password: DB_PASSWORD,
+        database: DB_NAME,
+        waitForConnections: true,
+        connectionLimit: 10,
+        queueLimit: 0,
+      });
+      try {
+        const [rows] = await pool.query('SELECT 1 + 1 AS two');
+        console.log('✅ MySQL fallback connection OK, result:', rows[0].two);
+      } catch (mysqlErr) {
+        console.error('❌ MySQL fallback connection failed:', mysqlErr);
+        process.exit(1);
+      }
     }
   } else {
     console.log('💻 Using local MySQL connection');
@@ -65,7 +81,7 @@ async function initDb() {
 
 // --- Helper unifié pour exécuter des requêtes --- //
 async function queryDB(sql, params = []) {
-  if (DATABASE_URL) {
+  if (DATABASE_URL && pool.options && pool.options.connectionString) {
     // PostgreSQL → remplacer les ? par $1, $2, ...
     const pgSql = sql.replace(/\?/g, (_, i, s) => `$${(s.slice(0, i).match(/\?/g) || []).length + 1}`);
     const result = await pool.query(pgSql, params);
