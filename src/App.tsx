@@ -71,7 +71,7 @@ export default function App() {
   //];
 
   // Header Component
-  const API_URL = import.meta.env.VITE_API_URL;
+  const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const Header = () => (
     <header className="border-b border-border bg-white px-6 py-4">
       <div className="flex items-center justify-between max-w-7xl mx-auto">

@@ -11,7 +11,7 @@ interface LoginPageProps {
   onLogin?: (user: { id: number; firstName: string; role: string }) => void;
 }
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 const LoginPage: React.FC<LoginPageProps> = ({ role, onLogin }) => {
   const [selectedRole, setSelectedRole] = useState(role || '');
