@@ -32,8 +32,9 @@ async function initDb() {
   console.log('🌍 DATABASE_URL =', DATABASE_URL || 'Non définie');
   console.log('🧩 Environnement Vercel =', !!process.env.VERCEL);
 
-  if (DATABASE_URL && process.env.VERCEL) {
-    console.log('🌐 Mode production → PostgreSQL (Supabase)');
+  // Si DATABASE_URL existe, on utilise PostgreSQL (Supabase)
+  if (DATABASE_URL && DATABASE_URL.length > 0) {
+    console.log('🌐 Utilisation PostgreSQL (Supabase)');
     isPostgres = true;
     pool = new Pool({
       connectionString: DATABASE_URL,
@@ -48,26 +49,29 @@ async function initDb() {
       console.error('❌ Erreur de connexion PostgreSQL:', err.message);
       process.exit(1);
     }
-  } else {
-    console.log('💻 Mode local → MySQL');
-    try {
-      pool = await mysql.createPool({
-        host: DB_HOST || 'localhost',
-        user: DB_USER || 'root',
-        password: DB_PASSWORD || '',
-        database: DB_NAME || 'lingodb',
-        waitForConnections: true,
-        connectionLimit: 10,
-        queueLimit: 0,
-      });
-      const [rows] = await pool.query('SELECT 1 + 1 AS test');
-      console.log('✅ Connecté à MySQL, test OK:', rows[0].test);
-    } catch (err) {
-      console.error('❌ Erreur MySQL locale:', err.message);
-      process.exit(1);
-    }
+    return; // 🔹 Important : on sort ici pour ne pas essayer MySQL
+  }
+
+  // Sinon, on tombe sur MySQL local
+  console.log('💻 Mode local → MySQL');
+  try {
+    pool = await mysql.createPool({
+      host: DB_HOST || 'localhost',
+      user: DB_USER || 'root',
+      password: DB_PASSWORD || '',
+      database: DB_NAME || 'lingodb',
+      waitForConnections: true,
+      connectionLimit: 10,
+      queueLimit: 0,
+    });
+    const [rows] = await pool.query('SELECT 1 + 1 AS test');
+    console.log('✅ Connecté à MySQL, test OK:', rows[0].test);
+  } catch (err) {
+    console.error('❌ Erreur MySQL locale:', err.message);
+    process.exit(1);
   }
 }
+
 
 // --- Helper unifié pour exécuter des requêtes --- //
 async function queryDB(sql, params = []) {
